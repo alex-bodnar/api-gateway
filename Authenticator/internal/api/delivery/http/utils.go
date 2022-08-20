@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/gofiber/fiber/v2"
 
-	"user/pkg/errs"
+	"authenticator/pkg/errs"
 )
 
 const (

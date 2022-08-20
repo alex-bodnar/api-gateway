@@ -1,0 +1,42 @@
+logger:
+  mode: dev
+  log-format: json
+  log-level: debug
+  datetime-format: "2006-01-02 15:04:05"
+  use-timestamp: false
+  include-caller-method: true
+
+storage:
+  postgres:
+    connection-string: "host=localhost port=5432 user=postgres dbname=authenticator password=postgres sslmode=disable"
+    driver: pgx
+    dialect: postgres
+    max-retries: 5
+    retry-delay: 10s
+    query-timeout: 10s
+    auto-migrate: true
+    migration-directory: "dbschema/migrations"
+    migration-direction: "up"
+  redis:
+    connection-address: "localhost:6379"
+    db: 0
+    pass: ""
+    max-retries: 5
+    retry-delay: 10s
+    query-timeout: 10s
+
+delivery:
+  http-server:
+    log-requests: true
+    listen-address: 0.0.0.0:40003
+    read-timeout: 100s
+    write-timeout: 100s
+    body-size-limit: 10128
+    graceful-timeout: 60
+  kafka-broker:
+    brokers:
+      - localhost:9092
+
+extra:
+  redis-cache:
+    time-live: 30m
