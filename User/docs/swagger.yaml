@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  description: Endpoints documentation.
+  title: User microservice REST API.
+  version: "0.0.1"
+servers:
+  - url: http://127.0.0.1:40002/v1
+    description: Films-API local endpoint
+
+# =================== PATHS =========================
+paths:
+  /films-api/status:
+    get:
+      description: |
+        Returns service info.
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.Status"
+      summary: get status
+      tags:
+        - Status
+
+
+
+components:
+
+
+  # ================= MODELS ====================
+  schemas:
+    models.Status:
+      properties:
+        name:
+          description: Service name
+          example: user-microservice
+          format: string
+        version:
+          description: Service version
+          example: "0.0.1"
+          format: string
+        tag:
+          description: Service build tag
+          example: "0.0.1"
+          format: string
+        commit:
+          description: Hash of commit
+          example: 7b7eefc805b4877004f802e7ec5e4d1e087b174d
+          format: string
+        date:
+          description: Build date
+          example: 22-08-06T22:31:35Z
+          format: string
+        fortune_cookie:
+          description: Fortune cookie
+          example: It s what you learn after you know it all that counts.-- John Wooden
+          format: string
