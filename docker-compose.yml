@@ -1,0 +1,127 @@
+version: "3"
+
+services:
+  database-user:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - pgdata-user:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+  database-authenticator:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - pgdata-authenticator:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - backend
+
+  zookeeper-gateway:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper-gateway
+    restart: always
+    expose:
+    - "2181"
+    ports:
+    - "2181:2181"
+    networks:
+      - backend
+
+  kafka-gateway:
+    image: wurstmeister/kafka
+    container_name: kafka-gateway
+    env_file:
+    - kafka/kafka-variables.env
+    depends_on:
+    - zookeeper-gateway
+    ports:
+    - '9092:9092'
+    - '8082:8082'
+    - '8083:8083'
+    networks:
+      - backend
+
+  redis-gateway:
+    image: redis
+    container_name: redis-gateway
+    ports:
+    - 6379:6379
+    restart: always
+    command: redis-server
+    networks:
+      - backend
+
+  user-service:
+    container_name: user-microservice
+    working_dir: /
+    restart: always
+    volumes:
+      - ./User/volumes/config.compose.yaml:/config.yaml
+    build: 
+      context: ./User
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: user-microservice
+    depends_on:
+      - database-user
+      - zookeeper-gateway
+      - kafka-gateway
+    ports:
+      - "40002:40002"
+    networks:
+      - backend
+
+  authenticator-service:
+    container_name: authenticator-service
+    working_dir: /
+    restart: always
+    volumes:
+      - ./Authenticator/volumes/config.compose.yaml:/config.yaml
+    build: 
+      context: ./Authenticator
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: authenticator-microservice
+    depends_on:
+      - database-authenticator
+      - zookeeper-gateway
+      - kafka-gateway
+      - redis-gateway
+    ports:
+      - "40003:40003"
+    networks:
+      - backend
+
+  proxy-service:
+    container_name: proxy-microservice
+    working_dir: /
+    restart: always
+    volumes:
+      - ./Proxy/volumes/config.compose.yaml:/config.yaml
+    build: 
+      context: ./Proxy
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: proxy-microservice
+    depends_on:
+      - user-service
+      - authenticator-service
+    ports:
+      - "40004:40004"
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  pgdata-user:
+  pgdata-authenticator:

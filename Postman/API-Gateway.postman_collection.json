@@ -1,0 +1,272 @@
+{
+	"info": {
+		"_postman_id": "4b5235de-7ea7-4ad5-be21-2bb69dd27bd2",
+		"name": "API-Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User service",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Alex\",\n    \"phone\": \"+3809625551\",\n    \"email\": \"examle@mail.ua\",\n    \"date_of_birth\": 888437693\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:40002/v1/user/user/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40002",
+							"path": [
+								"v1",
+								"user",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Username",
+								"value": "Alex",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:40002/v1/user/user/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40002",
+							"path": [
+								"v1",
+								"user",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:40002/v1/user/microservice/name",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40002",
+							"path": [
+								"v1",
+								"user",
+								"microservice",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:40002/v1/user/status",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40002",
+							"path": [
+								"v1",
+								"user",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authenticator",
+			"item": [
+				{
+					"name": "Check Authorization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Username",
+								"value": "Alex",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:40003/v1/authenticator/auth",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40003",
+							"path": [
+								"v1",
+								"authenticator",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:40003/v1/authenticator/status",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40003",
+							"path": [
+								"v1",
+								"authenticator",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Proxy service",
+			"item": [
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Username",
+								"value": "Alex",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:40004/v1/proxy/user/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40004",
+							"path": [
+								"v1",
+								"proxy",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:40004/v1/proxy/microservice/name",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40004",
+							"path": [
+								"v1",
+								"proxy",
+								"microservice",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:40004/v1/proxy/status",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "40004",
+							"path": [
+								"v1",
+								"proxy",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
