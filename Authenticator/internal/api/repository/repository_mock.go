@@ -35,20 +35,6 @@ func (m *MockUsers) EXPECT() *MockUsersMockRecorder {
 	return m.recorder
 }
 
-// Create mocks base method.
-func (m *MockUsers) Create(ctx context.Context, userData users.User) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", ctx, userData)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Create indicates an expected call of Create.
-func (mr *MockUsersMockRecorder) Create(ctx, userData interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUsers)(nil).Create), ctx, userData)
-}
-
 // GetByName mocks base method.
 func (m *MockUsers) GetByName(ctx context.Context, name string) (users.User, error) {
 	m.ctrl.T.Helper()
@@ -62,4 +48,18 @@ func (m *MockUsers) GetByName(ctx context.Context, name string) (users.User, err
 func (mr *MockUsersMockRecorder) GetByName(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByName", reflect.TypeOf((*MockUsers)(nil).GetByName), ctx, name)
+}
+
+// Save mocks base method.
+func (m *MockUsers) Save(ctx context.Context, userData users.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Save", ctx, userData)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Save indicates an expected call of Save.
+func (mr *MockUsersMockRecorder) Save(ctx, userData interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockUsers)(nil).Save), ctx, userData)
 }

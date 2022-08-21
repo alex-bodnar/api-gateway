@@ -5,11 +5,11 @@ info:
   version: "0.0.1"
 servers:
   - url: http://127.0.0.1:40002/v1
-    description: Films-API local endpoint
+    description: user microservice local endpoint
 
 # =================== PATHS =========================
 paths:
-  /films-api/status:
+  /user/status:
     get:
       description: |
         Returns service info.
@@ -23,12 +23,92 @@ paths:
       summary: get status
       tags:
         - Status
+  /user/microservice/name:
+    get:
+      description: |
+        Returns service name.
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.MicroserviceName"
+      summary: get microservice name
+      tags:
+        - Status
 
-
+  /user/user/register:
+    post:
+      description: |
+        Register new user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/models.UserRegisterRequest"
+      responses:
+        201:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.UserRegisterResponse"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.UserRegisterBadRequest"
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.UserRegisterConflict"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.InternalServerError"
+      summary: register user
+      tags:
+        - User
+  /user/user/profile:
+    get:
+      description: |
+        Get user profile.
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.UserProfileResponse"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.UserBadRequest"
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.UserNotFound"
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.InternalServerError"
+      summary: get user profile
+      tags:
+        - User
 
 components:
-
-
   # ================= MODELS ====================
   schemas:
     models.Status:
@@ -57,3 +137,111 @@ components:
           description: Fortune cookie
           example: It s what you learn after you know it all that counts.-- John Wooden
           format: string
+
+    models.UserRegisterRequest:
+      properties:
+        name:
+          description: User name
+          example: John Doe
+          format: string
+        phone:
+          description: User phone
+          example: "+48123456789"
+          format: string
+        email:
+          description: User email
+          example: examle@mail.ua
+          format: string
+        date_of_birth:
+          description: User date of birth
+          example: 888437693
+          format: unix timestamp
+    models.UserRegisterResponse:
+      properties:
+        id:
+          description: User id
+          example: 1
+          format: integer
+    models.UserRegisterBadRequest:
+      description: "Bad Request"
+      type: object
+      properties:
+        error:
+          description: "Error message"
+          type: string
+          example: "invalid body"
+    models.UserRegisterConflict:
+      description: "Conflict"
+      type: object
+      properties:
+        error:
+          description: "Error message"
+          type: string
+          example: "entity_exists - Alex"
+
+    models.UserProfileResponse:
+      properties:
+        id:
+          description: User id
+          example: 1
+          format: integer
+        name:
+          description: User name
+          example: John Doe
+          format: string
+        phone:
+          description: User phone
+          example: "+48123456789"
+          format: string
+        email:
+          description: User email
+          example: examle@mail.ua
+          format: string
+        date_of_birth:
+          description: User date of birth
+          example: 888437693
+          format: unix timestamp
+        age:
+          description: User age
+          example: 30
+          format: integer
+        created_at:
+          description: User created at
+          example: 888437693
+          format: unix timestamp
+        updated_at:
+          description: User updated at
+          example: 888437693
+          format: unix timestamp
+    models.UserBadRequest:
+      description: "Bad Request"
+      type: object
+      properties:
+        error:
+          description: "Error message"
+          type: string
+          example: "Username::is_required"
+    models.UserNotFound:
+      description: "Not Found"
+      type: object
+      properties:
+        error:
+          description: "Error message"
+          type: string
+          example: "not_found - user"
+
+    models.MicroserviceName:
+      properties:
+        name:
+          description: Service name
+          example: user-microservice
+          format: string
+
+    models.InternalServerError:
+      description: "Internal server error"
+      type: object
+      properties:
+        error:
+          type: string
+          description: "Error message"
+          example: "internal_server_error"

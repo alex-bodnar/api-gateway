@@ -17,3 +17,8 @@ vendor:
 
 start-docker-compose: vendor
 	docker-compose up
+
+swagger-user-serve:
+	redoc-cli serve User/docs/swagger.yaml
+swagger-authenticator-serve:
+	redoc-cli serve Authenticator/docs/swagger.yaml
